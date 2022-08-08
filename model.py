@@ -41,14 +41,14 @@ class CNNModel(nn.Module):
 		##---------------------------------------------------------
 		## write code to feed input features to the CNN models defined above
 		##---------------------------------------------------------
-		x = F.relu(self.conv1(x))
-		# x = self.activation(x)
+		x = self.conv1(x)
+		x = self.activation(x)
 		x = self.maxPool(x)
-		x = F.relu(self.conv2(x))
-		# x = self.activation(x)
+		x = self.conv2(x)
+		x = self.activation(x)
 		x = self.maxPool(x)
-		x = F.relu(self.conv2(x))
-		# x = self.activation(x)
+		x = self.conv2(x)
+		x = self.activation(x)
 		x = self.maxPool(x)
 		x= self.dropout(x)
 
