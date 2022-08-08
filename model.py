@@ -18,13 +18,13 @@ class CNNModel(nn.Module):
 		##-----------------------------------------------------------
 		padding = (args.k_size-1)/2
 		## define CNN layers below
-		self.conv1 = nn.Conv2d(in_channels=1,out_channels=args.channel_out1,kernel_size= args.k_size, stride= args.stride,padding= padding),
+		self.conv1 = nn.Conv2d(in_channels=1,out_channels=args.channel_out1,kernel_size= args.k_size, stride= args.stride,padding= padding)
 
-		self.conv2 = nn.Conv2d(in_channels= args.channel_out1, out_channels=args.channel_out2,kernel_size=args.k_size, stride = args.stride, padding= padding),
+		self.conv2 = nn.Conv2d(in_channels= args.channel_out1, out_channels=args.channel_out2,kernel_size=args.k_size, stride = args.stride, padding= padding)
 
 		# self.conv3 = nn.Conv2d(in_channels= args.channel_out2, out_channels=args.channel_out2,kernel_size=args.k_size, stride = args.stride, padding= padding),
-		self.maxPool = nn.MaxPool2d(kernel_size=args.pooling_size,stride= args.stride),
-		self.activation = args.activation,
+		self.maxPool = nn.MaxPool2d(kernel_size=args.pooling_size,stride= args.stride)
+		self.activation = args.activation
 		self.dropout = args.dropout
 
 		##------------------------------------------------
