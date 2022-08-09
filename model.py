@@ -41,6 +41,7 @@ class CNNModel(nn.Module):
 		##---------------------------------------------------------
 		## write code to feed input features to the CNN models defined above
 		##---------------------------------------------------------
+		print("shape of image",x.unsqueeze(dim=0).shape)
 		x = self.conv1(x)
 		x = self.activation(x)
 		x = self.maxPool(x)
