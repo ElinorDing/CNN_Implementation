@@ -72,7 +72,7 @@ def _compute_accuracy(y_pred, y_batch):
 	## --------------------------------------------
 	## write the code of computing accuracy below
 	## --------------------------------------------
-	accy = y_pred/y_batch
+	accy = 100.0 * y_pred/y_batch
 	return accy
 	
 
@@ -136,7 +136,7 @@ def main():
 	if args.mode == 'train':
 		# train_loss_record = list()
 		# val_loss_record = list()
-
+		n_total_steps = len(train_loader)
 		model = model.train()
 		for epoch in range(num_epoches): #10-50
 			## learning rate
@@ -161,14 +161,16 @@ def main():
 				loss.backward()
 				optimizer.step()
 
+				if(batch_id+1)%2000 == 0:
+					print(f'Epoch[{epoch+1}/{num_epoches}],Step[{batch_id+1}/{n_total_steps}], Loss[{loss.item():.4f}]')
 				##------------------------------------------------------
 				## get the predict result and then compute accuracy below
 				##------------------------------------------------------
 				# _, y_pred = torch.max(output_y.data, 1)
 				y_pred = torch.argmax(output_y.data, 1)
-				print(y_pred)
-				
-				
+				# print(y_pred)
+
+		print("finish training")
 				##----------------------------------------------------------
 				## loss.item() or use tensorboard to monitor the loss blow
 				## if use loss.item(), you may use log txt files to save loss
@@ -207,6 +209,8 @@ def main():
 			y_pred = torch.argmax(output_y.data, 1)
 			accuracy = _compute_accuracy(y_pred,y_labels)
 			acc_record.append(accuracy)
+			print(f'Accuracy of the network: {accuracy} %')
+			
 
 		
 
