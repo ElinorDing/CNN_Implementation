@@ -56,7 +56,7 @@ class CNNModel(nn.Module):
 		##---------------------------------------------------------
 		## write code to feed input features to the CNN models defined above
 		##---------------------------------------------------------
-		# print("shape of image",x.unsqueeze(dim=0).shape)
+
 		# x = self.conv1(x)
 		# x = self.activation(x)
 		# x = self.maxPool(x)
@@ -71,6 +71,7 @@ class CNNModel(nn.Module):
 
 		## write flatten tensor code below (it is done)
 		x = torch.flatten(x_out,1) # x_out is output of last layer
+		print("x shape",x.shape)
 		## ---------------------------------------------------
 		## write fully connected layer (Linear layer) below
 		## ---------------------------------------------------
