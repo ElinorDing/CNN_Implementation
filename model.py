@@ -38,7 +38,8 @@ class CNNModel(nn.Module):
 			nn.Conv2d(in_channels= args.channel_out1, out_channels=args.channel_out2,kernel_size=args.k_size, stride = args.stride),
 			nn.BatchNorm2d(args.channel_out2),
 			nn.ReLU(),
-			nn.MaxPool2d(kernel_size=args.pooling_size,stride= args.stride)
+			nn.MaxPool2d(kernel_size=args.pooling_size,stride= args.stride),
+			nn.Dropout(args.dropout)
 		)
 
 		##------------------------------------------------
