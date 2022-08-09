@@ -70,8 +70,8 @@ class CNNModel(nn.Module):
 		x_out = self.cov(x)
 
 		## write flatten tensor code below (it is done)
-		x = torch.flatten(x_out,1) # x_out is output of last layer
-
+		# x = torch.flatten(x_out,1) # x_out is output of last layer
+		x = torch.flatten(1,-1)(x_out)
 		## ---------------------------------------------------
 		## write fully connected layer (Linear layer) below
 		## ---------------------------------------------------
