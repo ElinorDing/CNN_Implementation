@@ -40,7 +40,7 @@ parser.add_argument("-activation", dest="activation", type=str, default='relu', 
 # parser.add_argument("-MC", dest='MC', type=int, default=10, help="number of monte carlo")
 parser.add_argument("-channel_out1", dest='channel_out1', type=int, default=64, help="number of channels")
 parser.add_argument("-channel_out2", dest='channel_out2', type=int, default=64, help="number of channels")
-parser.add_argument("-k_size", dest='k_size', type=int, default=3, help="size of filter")
+parser.add_argument("-k_size", dest='k_size', type=int, default=4, help="size of filter")
 parser.add_argument("-pooling_size", dest='pooling_size', type=int, default=2, help="size for max pooling")
 parser.add_argument("-stride", dest='stride', type=int, default=1, help="stride for filter")
 parser.add_argument("-max_stride", dest='max_stride', type=int, default=2, help="stride for max pooling")
