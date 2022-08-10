@@ -111,7 +111,7 @@ def main():
 	## step 1: Load data
 	DATA_PATH = "./data/"
 	train_loader, test_loader=_load_data(DATA_PATH, args.batch_size)
-
+	classes = ('0','1','2','3','4','5','6','7','8','9')
 	##-------------------------------------------------------
 	## please write the code about model initialization below
 	##-------------------------------------------------------
@@ -190,6 +190,8 @@ def main():
 	model.eval()
 	correct = 0
 	total = 0
+	n_correct_class = [0 for i in range(10)]
+	n_class_sample = [0 for i in range(10)]
 	with torch.no_grad():
 		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
@@ -210,8 +212,18 @@ def main():
 			_, y_pred = torch.max(output_y.data, 1)
 			total += y_labels.size(0)
 			correct += (y_pred == y_labels).sum().item()
+
+			for i in range(args.batch_size):
+				label = y_labels[i]
+				pred = y_pred[i]
+				if label == pred:
+					n_correct_class[label] += 1
+				n_class_sample += 1
 	accuracy = _compute_accuracy(correct, total)
-	print(f'Accuracy of the network on the 10000 test images: {accuracy} %')
+	print(f'Accuracy of the network on the test images: {accuracy} %')
+	for i in range(10):
+		acc = _compute_accuracy(n_correct_class[i],n_class_sample[i])
+		print(f'Accuracy of class: {classes[i]}:{accuracy} %')
 
 
 
