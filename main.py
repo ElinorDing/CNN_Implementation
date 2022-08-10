@@ -190,8 +190,6 @@ def main():
 	model.eval()
 	correct = 0
 	total = 0
-	correct_class_pred = {classname :0 for classname in classes}
-	total_class_pred = {classname :0 for classname in classes}
 	with torch.no_grad():
 		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
@@ -213,20 +211,31 @@ def main():
 			total += y_labels.size(0)
 			correct += (y_pred == y_labels).sum().item()
 
-			for label, prediction in zip(y_labels, y_pred):
-				print('label:',label)
-				print('prediction:',prediction)
-				if label == prediction:
-					correct_class_pred[classes[label]] += 1
-					total_class_pred[classes[label]] += 1
-
-	for classname, correct_count in correct_class_pred.items():
-		acc = _compute_accuracy(float(correct_count),total_class_pred[classname])
-		print(f'Accuracy for class: {classname:5s} is {acc:.1f} %')
-
 	accuracy = _compute_accuracy(correct, total)
 	print(f'Accuracy of the network on the test images: {accuracy} %')
 
+
+	# prepare to count predictions for each class
+	correct_pred = {classname: 0 for classname in classes}
+	total_pred = {classname: 0 for classname in classes}
+
+	# again no gradients needed
+	with torch.no_grad():
+		for data in test_loader:
+			images, labels = data
+			outputs = CNNModel(images)
+			_, predictions = torch.max(outputs, 1)
+			# collect the correct predictions for each class
+			for label, prediction in zip(labels, predictions):
+				if label == prediction:
+					correct_pred[classes[label]] += 1
+				total_pred[classes[label]] += 1
+
+
+	# print accuracy for each class
+	for classname, correct_count in correct_pred.items():
+		accuracy = 100 * float(correct_count) / total_pred[classname]
+		print(f'Accuracy for class: {classname:5s} is {accuracy:.1f} %')
 
 
 
