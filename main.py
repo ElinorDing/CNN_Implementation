@@ -126,7 +126,7 @@ def main():
 	## --------------------------------------------------
 	optimizer = optim.Adam(model.parameters(),lr=learning_rate)  ## optimizer
 	loss_fun = nn.CrossEntropyLoss() ## cross entropy loss
-	
+	writer = SummaryWriter()
 	##--------------------------------------------
 	## load checkpoint below if you need
 	##--------------------------------------------
@@ -180,9 +180,8 @@ def main():
 			## -------------------------------------------------------------------
 
 		print("finish training")
-		writer = SummaryWriter()
 		writer.add_scalar("Loss/train", loss, 20)
-		writer.close()
+	writer.close()
 			
 				
 
