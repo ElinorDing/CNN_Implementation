@@ -214,6 +214,8 @@ def main():
 			correct += (y_pred == y_labels).sum().item()
 
 			for label, prediction in zip(y_labels, y_pred):
+				print('label:',label)
+				print('prediction:',prediction)
 				if label == prediction:
 					correct_class_pred[classes[label]] += 1
 					total_class_pred[classes[label]] += 1
@@ -221,6 +223,7 @@ def main():
 	for classname, correct_count in correct_class_pred.items():
 		acc = _compute_accuracy(float(correct_count),total_class_pred[classname])
 		print(f'Accuracy for class: {classname:5s} is {acc:.1f} %')
+
 	accuracy = _compute_accuracy(correct, total)
 	print(f'Accuracy of the network on the test images: {accuracy} %')
 
