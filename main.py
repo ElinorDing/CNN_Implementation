@@ -170,12 +170,9 @@ def main():
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
 
-				running_loss += loss.item()
 				# print(loss.item())
-				if batch_id % 2000 == 1999:
-					print(batch_id % 2000 == 1999)# print every 2000 mini-batches
-					print(f'[{epoch + 1}, {batch_id + 1:5d}] loss: {running_loss / 2000:.3f}')
-					running_loss = 0.0
+				if batch_id+1 % 2000 == 0:
+					print(f'[{epoch + 1}/{num_epoches}], Step[{batch_id+1}/{len(train_loader)}], Loss[{loss.item():.4f}]')
 			## -------------------------------------------------------------------
 			## save checkpoint below (optional), every "epoch" save one checkpoint
 			## -------------------------------------------------------------------
@@ -218,14 +215,15 @@ def main():
 			total += y_labels.size(0)
 			correct += (y_pred == y_labels).sum().item()
 
-	accuracy = _compute_accuracy(correct, total)
-	print(f'Accuracy of the network on the test images: {accuracy} %')
 
 	# print accuracy for each class
 	for classname, correct_count in correct_pred.items():
 		# acc = _compute_accuracy(int(correct_count),total_pred[classname])
 		accuracy = 100 * float(correct_count) / total_pred[classname]
 		print(f'Accuracy for class: {classname:5s} is {accuracy:.1f} %')
+
+	accuracy = _compute_accuracy(correct, total)
+	print(f'Accuracy of the network on the test images: {accuracy} %')
 
 
 
