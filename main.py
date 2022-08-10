@@ -185,7 +185,6 @@ def main():
 	##------------------------------------
 	##    model testing code below
 	##------------------------------------
-	acc_record = list()
 	model.eval()
 	correct = 0
 	total = 0
@@ -209,9 +208,8 @@ def main():
 			_, y_pred = torch.max(output_y.data, 1)
 			total += y_labels.size(0)
 			correct += (y_pred == y_labels).sum().item()
-			# accuracy = _compute_accuracy(y_pred,y_labels)
-			# acc_record.append(accuracy)
-	print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
+	accuracy = _compute_accuracy(correct, total)
+	print(f'Accuracy of the network on the 10000 test images: {accuracy} %')
 
 
 
