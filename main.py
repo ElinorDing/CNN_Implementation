@@ -190,8 +190,8 @@ def main():
 	model.eval()
 	correct = 0
 	total = 0
-	n_correct_class = [0 for i in range(10)]
-	n_class_sample = [0 for i in range(10)]
+	correct_class_pred = {classname :0 for classname in classes}
+	total_class_pred = {classname :0 for classname in classes}
 	with torch.no_grad():
 		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
@@ -213,17 +213,17 @@ def main():
 			total += y_labels.size(0)
 			correct += (y_pred == y_labels).sum().item()
 
-			for i in range(args.batch_size):
-				label = y_labels[i]
-				pred = y_pred[i]
-				if label == pred:
-					n_correct_class[label] += 1
-				n_class_sample += 1
+			for label, prediction in zip(y_labels, y_pred):
+				if label == prediction:
+					correct_class_pred[classes[label]] += 1
+					total_class_pred[classes[label]] += 1
+
+	for classname, correct_count in correct_class_pred.items():
+		acc = _compute_accuracy(float(correct_count),total_class_pred[classname])
+		print(f'Accuracy for class: {classname:5s} is {acc:.1f} %')
 	accuracy = _compute_accuracy(correct, total)
 	print(f'Accuracy of the network on the test images: {accuracy} %')
-	for i in range(10):
-		acc = _compute_accuracy(n_correct_class[i],n_class_sample[i])
-		print(f'Accuracy of class: {classes[i]}:{accuracy} %')
+
 
 
 
