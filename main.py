@@ -20,6 +20,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from model import CNNModel
 from utils import str2bool
+import torch.multiprocessing
 
 
 ## input hyper-paras
@@ -102,6 +103,7 @@ def main():
 	if use_cuda:
 		torch.cuda.manual_seed(72)
 
+	torch.multiprocessing.set_sharing_strategy('file_system')
 	## initialize hyper-parameters
 	num_epoches = args.num_epoches
 	decay = args.decay
