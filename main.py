@@ -171,7 +171,7 @@ def main():
 				## loss.item() or use tensorboard to monitor the loss blow
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
-
+				writer.add_scalar("Loss/train", loss, batch_id)
 				# print(loss.item())
 				if batch_id+1 % 2000 == 0:
 					print(f'[{epoch + 1}/{num_epoches}], Step[{batch_id+1}/{len(train_loader)}], Loss[{loss.item():.4f}]')
@@ -180,7 +180,6 @@ def main():
 			## -------------------------------------------------------------------
 
 		print("finish training")
-		writer.add_scalar("Loss/train", loss, 20)
 	writer.close()
 			
 				
