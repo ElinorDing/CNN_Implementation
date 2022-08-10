@@ -72,7 +72,7 @@ def _compute_accuracy(y_pred, y_batch):
 	## --------------------------------------------
 	## write the code of computing accuracy below
 	## --------------------------------------------
-	accy = 100.0 * y_pred/y_batch
+	accy = 100 * y_pred/y_batch
 	return accy
 	
 
