@@ -161,28 +161,24 @@ def main():
 				loss.backward()
 				optimizer.step()
 
-				running_loss += loss.item()
-				if batch_id % 2000 == 1999:    # print every 2000 mini-batches
-					print(f'[{epoch + 1}, {batch_id + 1:5d}] loss: {running_loss / 2000:.3f}')
-					running_loss = 0.0
 				##------------------------------------------------------
 				## get the predict result and then compute accuracy below
 				##------------------------------------------------------
-				# _, y_pred = torch.max(output_y.data, 1)
-				y_pred = torch.argmax(output_y.data, 1)
-				# print(y_pred)
 
-		print("finish training")
 				##----------------------------------------------------------
 				## loss.item() or use tensorboard to monitor the loss blow
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
-				
 
+				running_loss += loss.item()
+				if batch_id % 2000 == 1999:    # print every 2000 mini-batches
+					print(f'[{epoch + 1}, {batch_id + 1:5d}] loss: {running_loss / 2000:.3f}')
+					running_loss = 0.0
 			## -------------------------------------------------------------------
 			## save checkpoint below (optional), every "epoch" save one checkpoint
 			## -------------------------------------------------------------------
-			
+
+			print("finish training")
 			
 				
 
@@ -191,13 +187,15 @@ def main():
 	##------------------------------------
 	acc_record = list()
 	model.eval()
+	correct = 0
+	total = 0
 	with torch.no_grad():
 		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
 			##---------------------------------------
 			## write the predict result below
 			##---------------------------------------
-			# output_y = model(x_batch)
+			output_y = model(x_batch)
 
 			##---------------------------------------------------
 			## write loss function below, refer to tutorial slides
@@ -208,13 +206,14 @@ def main():
 			##--------------------------------------------------
 			## complete code for computing the accuracy below
 			##---------------------------------------------------
-			y_pred = torch.argmax(output_y.data, 1)
+			_, y_pred = torch.max(output_y.data, 1)
+			total += y_labels.size(0)
+			correct += (y_pred == y_labels).sum().item()
 			accuracy = _compute_accuracy(y_pred,y_labels)
 			acc_record.append(accuracy)
-			print(f'Accuracy of the network: {accuracy} %')
+			print(f'Accuracy of the network on the 10000 test images: {accuracy} %')
 
 
-		
 
 if __name__ == '__main__':
 	time_start = time.time()
