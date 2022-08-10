@@ -161,8 +161,10 @@ def main():
 				loss.backward()
 				optimizer.step()
 
-				if(batch_id+1)%2000 == 0:
-					print(f'Epoch[{epoch+1}/{num_epoches}],Step[{batch_id+1}/{n_total_steps}], Loss[{loss.item():.4f}]')
+				running_loss += loss.item()
+				if batch_id % 2000 == 1999:    # print every 2000 mini-batches
+					print(f'[{epoch + 1}, {batch_id + 1:5d}] loss: {running_loss / 2000:.3f}')
+					running_loss = 0.0
 				##------------------------------------------------------
 				## get the predict result and then compute accuracy below
 				##------------------------------------------------------
@@ -210,7 +212,7 @@ def main():
 			accuracy = _compute_accuracy(y_pred,y_labels)
 			acc_record.append(accuracy)
 			print(f'Accuracy of the network: {accuracy} %')
-			
+
 
 		
 
