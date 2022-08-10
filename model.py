@@ -16,16 +16,6 @@ class CNNModel(nn.Module):
 		## define the model architecture here
 		## MNIST image input size batch * 28 * 28 (one input channel)
 		##-----------------------------------------------------------
-		# padding = (args.k_size-1)/2
-		# ## define CNN layers below
-		# self.conv1 = nn.Conv2d(in_channels=1,out_channels=args.channel_out1,kernel_size= args.k_size, stride= args.stride,padding= padding)
-		#
-		# self.conv2 = nn.Conv2d(in_channels= args.channel_out1, out_channels=args.channel_out2,kernel_size=args.k_size, stride = args.stride, padding= padding)
-		#
-		# # self.conv3 = nn.Conv2d(in_channels= args.channel_out2, out_channels=args.channel_out2,kernel_size=args.k_size, stride = args.stride, padding= padding),
-		# self.maxPool = nn.MaxPool2d(kernel_size=args.pooling_size,stride= args.stride)
-		# self.activation = args.activation
-		# self.dropout = args.dropout
 		self.cov = nn.Sequential(
 			nn.Conv2d(in_channels=1,out_channels=args.channel_out1,kernel_size= args.k_size, stride= args.stride),
 			nn.BatchNorm2d(args.channel_out1),
@@ -57,16 +47,6 @@ class CNNModel(nn.Module):
 		## write code to feed input features to the CNN models defined above
 		##---------------------------------------------------------
 
-		# x = self.conv1(x)
-		# x = self.activation(x)
-		# x = self.maxPool(x)
-		# x = self.conv2(x)
-		# x = self.activation(x)
-		# x = self.maxPool(x)
-		# x = self.conv2(x)
-		# x = self.activation(x)
-		# x = self.maxPool(x)
-		# x= self.dropout(x)
 		x_out = self.cov(x)
 
 		## write flatten tensor code below (it is done)
