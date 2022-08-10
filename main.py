@@ -171,8 +171,6 @@ def main():
 				## loss.item() or use tensorboard to monitor the loss blow
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
-				writer = SummaryWriter()
-				writer.add_scalar("Loss/train", loss, 20)
 
 				# print(loss.item())
 				if batch_id+1 % 2000 == 0:
@@ -182,6 +180,8 @@ def main():
 			## -------------------------------------------------------------------
 
 		print("finish training")
+		writer = SummaryWriter()
+		writer.add_scalar("Loss/train", loss, 20)
 			
 				
 
@@ -228,6 +228,7 @@ def main():
 
 	accuracy = _compute_accuracy(correct, total)
 	print(f'Accuracy of the network on the test images: {accuracy} %')
+
 
 
 
