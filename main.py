@@ -209,9 +209,9 @@ def main():
 			_, y_pred = torch.max(output_y.data, 1)
 			total += y_labels.size(0)
 			correct += (y_pred == y_labels).sum().item()
-			accuracy = _compute_accuracy(y_pred,y_labels)
-			acc_record.append(accuracy)
-			print(f'Accuracy of the network on the 10000 test images: {accuracy} %')
+			# accuracy = _compute_accuracy(y_pred,y_labels)
+			# acc_record.append(accuracy)
+	print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
 
 
 
