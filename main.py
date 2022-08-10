@@ -15,7 +15,7 @@ import torch.optim as optim
 # from util import _create_batch
 import json
 import torchvision
-# from torch.utils.tensorboard import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from model import CNNModel
@@ -169,6 +169,8 @@ def main():
 				## loss.item() or use tensorboard to monitor the loss blow
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
+				writer = SummaryWriter()
+				writer.add_scalar("Loss/train", loss, 20)
 
 				# print(loss.item())
 				if batch_id+1 % 2000 == 0:
