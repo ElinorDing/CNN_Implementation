@@ -223,8 +223,8 @@ def main():
 
 	# print accuracy for each class
 	for classname, correct_count in correct_pred.items():
-		acc = _compute_accuracy(int(correct_count),total_pred[classname])
-		# accuracy = 100 * float(correct_count) / total_pred[classname]
+		# acc = _compute_accuracy(int(correct_count),total_pred[classname])
+		accuracy = 100 * float(correct_count) / total_pred[classname]
 		print(f'Accuracy for class: {classname:5s} is {accuracy:.1f} %')
 
 
