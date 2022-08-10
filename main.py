@@ -141,7 +141,7 @@ def main():
 		for epoch in range(num_epoches): #10-50
 			## learning rate
 			adjust_learning_rate(learning_rate, optimizer, epoch, decay)
-
+			running_loss = 0.0
 			for batch_id, (x_batch,y_labels) in enumerate(train_loader):
 				x_batch,y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
 
