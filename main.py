@@ -223,7 +223,7 @@ def main():
 	with torch.no_grad():
 		for data in test_loader:
 			images, labels = data
-			outputs = CNNModel(images)
+			outputs = model(images)
 			_, predictions = torch.max(outputs, 1)
 			# collect the correct predictions for each class
 			for label, prediction in zip(labels, predictions):
