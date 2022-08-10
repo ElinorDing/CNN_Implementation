@@ -171,8 +171,9 @@ def main():
 				##----------------------------------------------------------
 
 				running_loss += loss.item()
-				print(loss.item())
-				if batch_id % 2000 == 1999:    # print every 2000 mini-batches
+				# print(loss.item())
+				if batch_id % 2000 == 1999:
+					print(batch_id % 2000 == 1999)# print every 2000 mini-batches
 					print(f'[{epoch + 1}, {batch_id + 1:5d}] loss: {running_loss / 2000:.3f}')
 					running_loss = 0.0
 			## -------------------------------------------------------------------
