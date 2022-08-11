@@ -139,7 +139,7 @@ def main():
 	##  model training
 	if args.mode == 'train':
 		train_loss_record = list()
-		train_counter = [x for x in range(len(train_loader))]
+		train_counter = [x for x in range(10*len(train_loader))]
 		n_total_steps = len(train_loader)
 		model = model.train()
 		for epoch in range(num_epoches): #10-50
@@ -196,7 +196,7 @@ def main():
 	correct_pred = {classname: 0 for classname in classes}
 	total_pred = {classname: 0 for classname in classes}
 	val_loss_record = list()
-	test_counter = [x for x in range(len(test_loader))]
+	test_counter = [x for x in range(10*len(test_loader))]
 	with torch.no_grad():
 		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
