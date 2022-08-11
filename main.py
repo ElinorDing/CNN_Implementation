@@ -139,7 +139,7 @@ def main():
 	##  model training
 	if args.mode == 'train':
 		train_loss_record = list()
-		train_counter = 0
+		train_counter = [x for x in range(len(train_loader))]
 		n_total_steps = len(train_loader)
 		model = model.train()
 		for epoch in range(num_epoches): #10-50
@@ -157,7 +157,7 @@ def main():
 				##----------------------------------------------------
 				loss = loss_fun(output_y,y_labels)
 				train_loss_record.append(loss.item())
-				train_counter += 1
+				# train_counter += 1
 
 				##----------------------------------------
 				## write back propagation below
@@ -196,7 +196,7 @@ def main():
 	correct_pred = {classname: 0 for classname in classes}
 	total_pred = {classname: 0 for classname in classes}
 	val_loss_record = list()
-	test_counter = 0
+	test_counter = [x for x in range(len(test_loader))]
 	with torch.no_grad():
 		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
@@ -210,7 +210,7 @@ def main():
 			##----------------------------------------------------
 			loss = loss_fun(output_y,y_labels)
 			val_loss_record.append(loss.item())
-			test_counter += 1
+			# test_counter += 1
 
 
 			##--------------------------------------------------
