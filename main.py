@@ -9,13 +9,14 @@ import h5py
 import argparse
 import os.path
 import torch
+from matplotlib import pyplot as plt
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.optim as optim
 # from util import _create_batch
 import json
 import torchvision
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from model import CNNModel
@@ -91,8 +92,6 @@ def adjust_learning_rate(learning_rate, optimizer, epoch, decay):
 	for param_group in optimizer.param_groups:
 		param_group['lr'] = lr
 	# print("learning_rate: ", lr)
-	
-	
 
 def main():
 
@@ -114,6 +113,9 @@ def main():
 	DATA_PATH = "./data/"
 	train_loader, test_loader=_load_data(DATA_PATH, args.batch_size)
 	classes = ('0','1','2','3','4','5','6','7','8','9')
+
+	example = iter(test_loader)
+	example_data, example_targets = example.next()
 	##-------------------------------------------------------
 	## please write the code about model initialization below
 	##-------------------------------------------------------
@@ -126,7 +128,7 @@ def main():
 	## --------------------------------------------------
 	optimizer = optim.Adam(model.parameters(),lr=learning_rate)  ## optimizer
 	loss_fun = nn.CrossEntropyLoss() ## cross entropy loss
-	writer = SummaryWriter()
+	# writer = SummaryWriter()
 	##--------------------------------------------
 	## load checkpoint below if you need
 	##--------------------------------------------
@@ -136,8 +138,8 @@ def main():
 	
 	##  model training
 	if args.mode == 'train':
-		# train_loss_record = list()
-		# val_loss_record = list()
+		train_loss_record = list()
+		train_counter = 0
 		n_total_steps = len(train_loader)
 		model = model.train()
 		for epoch in range(num_epoches): #10-50
@@ -154,7 +156,8 @@ def main():
 				## write loss function below, refer to tutorial slides
 				##----------------------------------------------------
 				loss = loss_fun(output_y,y_labels)
-				# train_loss_record.append(loss.item())
+				train_loss_record.append(loss.item())
+				train_counter += 1
 
 				##----------------------------------------
 				## write back propagation below
@@ -171,7 +174,7 @@ def main():
 				## loss.item() or use tensorboard to monitor the loss blow
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
-				writer.add_scalar("Loss/train", loss, batch_id)
+				# writer.add_scalar("Loss/train", loss, batch_id)
 				# print(loss.item())
 				if batch_id+1 % 2000 == 0:
 					print(f'[{epoch + 1}/{num_epoches}], Step[{batch_id+1}/{len(train_loader)}], Loss[{loss.item():.4f}]')
@@ -180,7 +183,7 @@ def main():
 			## -------------------------------------------------------------------
 
 		print("finish training")
-	writer.close()
+	# writer.close()
 			
 				
 
@@ -192,6 +195,8 @@ def main():
 	total = 0
 	correct_pred = {classname: 0 for classname in classes}
 	total_pred = {classname: 0 for classname in classes}
+	val_loss_record = list()
+	test_counter = 0
 	with torch.no_grad():
 		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
@@ -203,7 +208,9 @@ def main():
 			##---------------------------------------------------
 			## write loss function below, refer to tutorial slides
 			##----------------------------------------------------
-			# loss = loss_fun(output_y,y_labels)
+			loss = loss_fun(output_y,y_labels)
+			val_loss_record.append(loss.item())
+			test_counter += 1
 
 
 			##--------------------------------------------------
@@ -228,7 +235,27 @@ def main():
 	accuracy = _compute_accuracy(correct, total)
 	print(f'Accuracy of the network on the test images: {accuracy} %')
 
+	for i in range(6):
+		plt.subplot(2,3,i+1)
+		plt.tight_layout()
+		plt.imshow(example_data[i][0], cmap='gray', interpolation='none')
+		plt.title("Ground Truth: {}".format(example_targets[i]))
+		plt.xticks([])
+		plt.yticks([])
+		plt.plot(train_counter, train_loss_record, color='blue')
+		plt.scatter(test_counter, val_loss_record, color='red')
+		plt.legend(['Train Loss', 'Test Loss'], loc='upper right')
+		plt.xlabel('number of training examples seen')
+		plt.ylabel('negative log likelihood loss')
 
+	for i in range(6):
+		plt.subplot(2,3,i+1)
+		plt.tight_layout()
+		plt.imshow(example_data[i][0], cmap='gray', interpolation='none')
+		plt.title("Prediction: {}".format(
+			y_pred.data.max(1, keepdim=True)[1][i].item()))
+		plt.xticks([])
+		plt.yticks([])
 
 
 if __name__ == '__main__':
