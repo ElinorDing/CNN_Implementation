@@ -246,32 +246,19 @@ def main():
 	accuracy = _compute_accuracy(correct, total)
 	print(f'Accuracy of the network on the test images: {accuracy} %')
 
-	for i in range(6):
-		# plt.subplot(2,3,i+1)
-		# plt.tight_layout()
-		# plt.imshow(example_data[i][0], cmap='gray', interpolation='none')
-		# plt.title("Ground Truth: {}".format(example_targets[i]))
-		# plt.xticks([])
-		# plt.yticks([])
-		# plt.savefig('Ground Turth.png')
-		print(train_loss_total)
-		plt.plot(train_counter, train_loss_total, color='blue')
-		plt.legend(['Train Loss'], loc='upper right')
-		plt.xlabel('number of training examples seen')
-		plt.ylabel('negative log likelihood loss')
-		plt.savefig('Train-Loss.png')
-
 	# for i in range(6):
-	# 	f2 = plt.figure()
-	# 	f2.add_subplot(2,3,i+1)
-	# 	f2.tight_layout()
-	# 	f2.imshow(example_data[i][0], cmap='gray', interpolation='none')
-	# 	f2.title("Prediction")
-	# 	# plt.title("Prediction: {}".format(
-	# 	# 	y_pred.data.max(1, keepdim=True)[1][i].item()))
-	# 	f2.xticks([])
-	# 	f2.yticks([])
-	# 	f2.savefig('Prediction.png')
+	# 	# plt.subplot(2,3,i+1)
+	# 	# plt.tight_layout()
+	# 	# plt.imshow(example_data[i][0], cmap='gray', interpolation='none')
+	# 	# plt.title("Ground Truth: {}".format(example_targets[i]))
+	# 	# plt.xticks([])
+	# 	# plt.yticks([])
+	# 	# plt.savefig('Ground Turth.png')
+	# 	plt.plot(train_counter, train_loss_total, color='blue')
+	# 	plt.legend(['Train Loss'], loc='upper right')
+	# 	plt.xlabel('number of training examples seen')
+	# 	plt.ylabel('negative log likelihood loss')
+	# 	plt.savefig('Train-Loss.png')
 
 
 
