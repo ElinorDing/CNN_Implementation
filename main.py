@@ -188,7 +188,7 @@ def main():
 			## -------------------------------------------------------------------
 			checkpoint = {'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch}
 			_save_checkpoint(checkpoint,args.ckp_path)
-			average_train_loss = sum(mean_loss)/len(mean_loss)
+			average_train_loss = sum(train_loss)/len(train_loss)
 			print(f'Average Loss of epoch {epoch} was {average_train_loss:.5f}')
 		print("finish training")
 	# writer.close()
