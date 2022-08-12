@@ -254,6 +254,7 @@ def main():
 		# plt.xticks([])
 		# plt.yticks([])
 		# plt.savefig('Ground Turth.png')
+		print(train_loss_total)
 		plt.plot(train_counter, train_loss_total, color='blue')
 		plt.scatter(test_counter, test_loss[:10], color='red')
 		plt.legend(['Train Loss', 'Test Loss'], loc='upper right')
