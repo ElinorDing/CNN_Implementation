@@ -1,7 +1,7 @@
 """
 Fun: CNN for MNIST classification
 """
-
+import random
 
 import numpy as np
 import time
@@ -76,7 +76,6 @@ def _compute_accuracy(y_pred, y_batch):
 	## --------------------------------------------
 	accy = 100 * y_pred/y_batch
 	return accy
-	
 
 
 def adjust_learning_rate(learning_rate, optimizer, epoch, decay):
@@ -92,6 +91,10 @@ def adjust_learning_rate(learning_rate, optimizer, epoch, decay):
 	for param_group in optimizer.param_groups:
 		param_group['lr'] = lr
 	# print("learning_rate: ", lr)
+
+def _save_checkpoint(state, ckp_path):
+	print("=> Saving checkpoint")
+	torch.save(state, ckp_path)
 
 def main():
 
@@ -132,20 +135,22 @@ def main():
 	##--------------------------------------------
 	## load checkpoint below if you need
 	##--------------------------------------------
-	# if args.load_checkpoint:
-		## write load checkpoint code below
+	if args.load_checkpoint:
+		checkpoint = torch.load(args.ckp_path)
+		CNNModel.load_state_dict(checkpoint['model_state_dict'])
+		optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+		epoches = checkpoint['epoch']
 
 	
 	##  model training
 	if args.mode == 'train':
-		train_loss_record = list()
 		train_counter = [x for x in range(num_epoches)]
-		n_total_steps = len(train_loader)
 		model = model.train()
 		for epoch in range(num_epoches): #10-50
+
 			## learning rate
 			adjust_learning_rate(learning_rate, optimizer, epoch, decay)
-			running_loss = 0.0
+			train_loss_record = list()
 			for batch_id, (x_batch,y_labels) in enumerate(train_loader):
 				x_batch,y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
 
@@ -157,7 +162,6 @@ def main():
 				##----------------------------------------------------
 				loss = loss_fun(output_y,y_labels)
 				train_loss_record.append(loss.item())
-				# train_counter += 1
 
 				##----------------------------------------
 				## write back propagation below
@@ -175,12 +179,13 @@ def main():
 				## if use loss.item(), you may use log txt files to save loss
 				##----------------------------------------------------------
 				# writer.add_scalar("Loss/train", loss, batch_id)
-				# print(loss.item())
-				if batch_id+1 % 2000 == 0:
-					print(f'[{epoch + 1}/{num_epoches}], Step[{batch_id+1}/{len(train_loader)}], Loss[{loss.item():.4f}]')
+				mean_loss = sum(train_loss_record)/len(train_loss_record)
+				print(f'Loss of epoch {epoch} was {mean_loss:.5f}')
 			## -------------------------------------------------------------------
 			## save checkpoint below (optional), every "epoch" save one checkpoint
 			## -------------------------------------------------------------------
+			checkpoint = {'state_dict': CNNModel.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch}
+			_save_checkpoint(checkpoint,args.ckp_path)
 
 		print("finish training")
 	# writer.close()
@@ -210,7 +215,6 @@ def main():
 			##----------------------------------------------------
 			loss = loss_fun(output_y,y_labels)
 			val_loss_record.append(loss.item())
-			# test_counter += 1
 
 
 			##--------------------------------------------------
@@ -242,8 +246,8 @@ def main():
 		plt.title("Ground Truth: {}".format(example_targets[i]))
 		plt.xticks([])
 		plt.yticks([])
-		plt.plot(train_counter, train_loss_record, color='blue')
-		plt.scatter(test_counter, val_loss_record, color='red')
+		plt.plot(train_counter, random.sample(train_loss_record,10), color='blue')
+		plt.scatter(test_counter, random.sample(val_loss_record,10), color='red')
 		plt.legend(['Train Loss', 'Test Loss'], loc='upper right')
 		plt.xlabel('number of training examples seen')
 		plt.ylabel('negative log likelihood loss')
