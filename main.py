@@ -252,7 +252,7 @@ def main():
 		plt.xlabel('number of training examples seen')
 		plt.ylabel('negative log likelihood loss')
 		plt.show()
-		# plt.savefig('Train-Loss.svg')
+		plt.savefig('Train-Loss.png')
 
 	for i in range(6):
 		plt.subplot(2,3,i+1)
@@ -264,7 +264,7 @@ def main():
 		plt.xticks([])
 		plt.yticks([])
 		plt.show()
-		# plt.savefig('Prediction.svg')
+		plt.savefig('Prediction.png')
 
 
 
