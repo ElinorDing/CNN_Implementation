@@ -184,7 +184,7 @@ def main():
 			## -------------------------------------------------------------------
 			## save checkpoint below (optional), every "epoch" save one checkpoint
 			## -------------------------------------------------------------------
-			checkpoint = {'state_dict': CNNModel.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch}
+			checkpoint = {'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch}
 			_save_checkpoint(checkpoint,args.ckp_path)
 
 		print("finish training")
