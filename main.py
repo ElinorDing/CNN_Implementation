@@ -150,6 +150,7 @@ def main():
 
 			## learning rate
 			adjust_learning_rate(learning_rate, optimizer, epoch, decay)
+			train_loss_total = list()
 			train_loss = list()
 			train_loss_record = list()
 			for batch_id, (x_batch,y_labels) in enumerate(train_loader):
@@ -189,6 +190,7 @@ def main():
 			checkpoint = {'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch}
 			_save_checkpoint(checkpoint,args.ckp_path)
 			average_train_loss = sum(train_loss)/len(train_loss)
+			train_loss_total.append(average_train_loss)
 			print(f'Average Loss of epoch {epoch} was {average_train_loss:.5f}')
 		print("finish training")
 	# writer.close()
@@ -252,7 +254,7 @@ def main():
 		# plt.xticks([])
 		# plt.yticks([])
 		# plt.savefig('Ground Turth.png')
-		plt.plot(train_counter, average_train_loss, color='blue')
+		plt.plot(train_counter, train_loss_total, color='blue')
 		plt.scatter(test_counter, test_loss[:10], color='red')
 		plt.legend(['Train Loss', 'Test Loss'], loc='upper right')
 		plt.xlabel('number of training examples seen')
