@@ -251,7 +251,7 @@ def main():
 		plt.legend(['Train Loss', 'Test Loss'], loc='upper right')
 		plt.xlabel('number of training examples seen')
 		plt.ylabel('negative log likelihood loss')
-		plt.show()
+		plt.savefig('Train-Loss.svg')
 
 	for i in range(6):
 		plt.subplot(2,3,i+1)
@@ -262,7 +262,7 @@ def main():
 		# 	y_pred.data.max(1, keepdim=True)[1][i].item()))
 		plt.xticks([])
 		plt.yticks([])
-		plt.show()
+		plt.savefig('Prediction.svg')
 
 
 
