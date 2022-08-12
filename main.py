@@ -240,31 +240,30 @@ def main():
 	print(f'Accuracy of the network on the test images: {accuracy} %')
 
 	for i in range(6):
-		f1 = plt.figure()
-		f1.add_subplot(2,3,i+1)
-		f1.tight_layout()
-		f1.imshow(example_data[i][0], cmap='gray', interpolation='none')
-		f1.title("Ground Truth: {}".format(example_targets[i]))
-		f1.xticks([])
-		f1.yticks([])
-		f1.plot(train_counter, random.sample(train_loss_record,10), color='blue')
-		f1.scatter(test_counter, random.sample(val_loss_record,10), color='red')
-		f1.legend(['Train Loss', 'Test Loss'], loc='upper right')
-		f1.xlabel('number of training examples seen')
-		f1.ylabel('negative log likelihood loss')
-		f1.savefig('Train-Loss.png')
+		plt.subplot(2,3,i+1)
+		plt.tight_layout()
+		plt.imshow(example_data[i][0], cmap='gray', interpolation='none')
+		plt.title("Ground Truth: {}".format(example_targets[i]))
+		plt.xticks([])
+		plt.yticks([])
+		plt.plot(train_counter, random.sample(train_loss_record,10), color='blue')
+		plt.scatter(test_counter, random.sample(val_loss_record,10), color='red')
+		plt.legend(['Train Loss', 'Test Loss'], loc='upper right')
+		plt.xlabel('number of training examples seen')
+		plt.ylabel('negative log likelihood loss')
+		plt.savefig('Train-Loss.png')
 
-	for i in range(6):
-		f2 = plt.figure()
-		f2.add_subplot(2,3,i+1)
-		f2.tight_layout()
-		f2.imshow(example_data[i][0], cmap='gray', interpolation='none')
-		f2.title("Prediction")
-		# plt.title("Prediction: {}".format(
-		# 	y_pred.data.max(1, keepdim=True)[1][i].item()))
-		f2.xticks([])
-		f2.yticks([])
-		f2.savefig('Prediction.png')
+	# for i in range(6):
+	# 	f2 = plt.figure()
+	# 	f2.add_subplot(2,3,i+1)
+	# 	f2.tight_layout()
+	# 	f2.imshow(example_data[i][0], cmap='gray', interpolation='none')
+	# 	f2.title("Prediction")
+	# 	# plt.title("Prediction: {}".format(
+	# 	# 	y_pred.data.max(1, keepdim=True)[1][i].item()))
+	# 	f2.xticks([])
+	# 	f2.yticks([])
+	# 	f2.savefig('Prediction.png')
 
 
 
