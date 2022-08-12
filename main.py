@@ -150,6 +150,7 @@ def main():
 
 			## learning rate
 			adjust_learning_rate(learning_rate, optimizer, epoch, decay)
+			train_loss = list()
 			train_loss_record = list()
 			for batch_id, (x_batch,y_labels) in enumerate(train_loader):
 				x_batch,y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
@@ -180,13 +181,15 @@ def main():
 				##----------------------------------------------------------
 				# writer.add_scalar("Loss/train", loss, batch_id)
 				mean_loss = sum(train_loss_record)/len(train_loss_record)
+				train_loss.append(mean_loss)
 				print(f'Loss of epoch {epoch} was {mean_loss:.5f}')
 			## -------------------------------------------------------------------
 			## save checkpoint below (optional), every "epoch" save one checkpoint
 			## -------------------------------------------------------------------
 			checkpoint = {'state_dict': model.state_dict(), 'optimizer': optimizer.state_dict(), 'epoch': epoch}
 			_save_checkpoint(checkpoint,args.ckp_path)
-
+			average_train_loss = sum(mean_loss)/len(mean_loss)
+			print(f'Average Loss of epoch {epoch} was {average_train_loss:.5f}')
 		print("finish training")
 	# writer.close()
 			
@@ -200,8 +203,9 @@ def main():
 	total = 0
 	correct_pred = {classname: 0 for classname in classes}
 	total_pred = {classname: 0 for classname in classes}
+	test_loss = list()
 	val_loss_record = list()
-	test_counter = [x for x in range(num_epoches)]
+	test_counter = [x for x in range(len(classes))]
 	with torch.no_grad():
 		for batch_id, (x_batch,y_labels) in enumerate(test_loader):
 			x_batch, y_labels = Variable(x_batch).to(device), Variable(y_labels).to(device)
@@ -216,7 +220,8 @@ def main():
 			loss = loss_fun(output_y,y_labels)
 			val_loss_record.append(loss.item())
 
-
+			mean_val_loss = sum(val_loss_record)/len(val_loss_record)
+			test_loss.append(mean_val_loss)
 			##--------------------------------------------------
 			## complete code for computing the accuracy below
 			##---------------------------------------------------
@@ -247,8 +252,8 @@ def main():
 		# plt.xticks([])
 		# plt.yticks([])
 		# plt.savefig('Ground Turth.png')
-		plt.plot(train_counter, random.sample(train_loss_record,10), color='blue')
-		plt.scatter(test_counter, random.sample(val_loss_record,10), color='red')
+		plt.plot(train_counter, average_train_loss, color='blue')
+		plt.scatter(test_counter, test_loss[:10], color='red')
 		plt.legend(['Train Loss', 'Test Loss'], loc='upper right')
 		plt.xlabel('number of training examples seen')
 		plt.ylabel('negative log likelihood loss')
