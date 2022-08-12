@@ -241,7 +241,7 @@ def main():
 
 	for i in range(6):
 		f1 = plt.figure()
-		f1.subplot(2,3,i+1)
+		f1.add_subplot(2,3,i+1)
 		f1.tight_layout()
 		f1.imshow(example_data[i][0], cmap='gray', interpolation='none')
 		f1.title("Ground Truth: {}".format(example_targets[i]))
@@ -256,7 +256,7 @@ def main():
 
 	for i in range(6):
 		f2 = plt.figure()
-		f2.subplot(2,3,i+1)
+		f2.add_subplot(2,3,i+1)
 		f2.tight_layout()
 		f2.imshow(example_data[i][0], cmap='gray', interpolation='none')
 		f2.title("Prediction")
