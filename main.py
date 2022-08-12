@@ -146,11 +146,11 @@ def main():
 	if args.mode == 'train':
 		train_counter = [x for x in range(num_epoches)]
 		model = model.train()
+		train_loss_total = list()
 		for epoch in range(num_epoches): #10-50
 
 			## learning rate
 			adjust_learning_rate(learning_rate, optimizer, epoch, decay)
-			train_loss_total = list()
 			train_loss = list()
 			train_loss_record = list()
 			for batch_id, (x_batch,y_labels) in enumerate(train_loader):
