@@ -35,7 +35,7 @@ class CNNModel(nn.Module):
 		##------------------------------------------------
 		## write code to define fully connected layer below
 		##------------------------------------------------
-		in_size = args.channel_out2*16*16
+		in_size = args.channel_out2*20*20
 		out_size = 10
 		self.fc = nn.Linear(in_size, out_size)
 		
