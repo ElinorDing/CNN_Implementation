@@ -58,12 +58,12 @@ def _load_data(DATA_PATH, batch_size):
 	train_trans = transforms.Compose([transforms.RandomRotation(args.rotation),transforms.RandomHorizontalFlip(),\
 								transforms.ToTensor(), transforms.Normalize((0.5), (0.5))])
 	
-	train_dataset = torchvision.datasets.MNIST(root=DATA_PATH, download=True,train=True, transform=train_trans)
+	train_dataset = torchvision.datasets.CIFAR10(root=DATA_PATH, download=True,train=True, transform=train_trans)
 	train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True,num_workers=8)
 	
 	## for testing
 	test_trans = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5), (0.5))])
-	test_dataset = torchvision.datasets.MNIST(root=DATA_PATH, download=True, train=False, transform=test_trans)
+	test_dataset = torchvision.datasets.CIFAR10(root=DATA_PATH, download=True, train=False, transform=test_trans)
 	test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False, num_workers=8)
 	
 	return train_loader, test_loader
@@ -115,8 +115,8 @@ def main():
 	## step 1: Load data
 	DATA_PATH = "./data/"
 	train_loader, test_loader=_load_data(DATA_PATH, args.batch_size)
-	classes = ('0','1','2','3','4','5','6','7','8','9')
-
+	# classes = ('0','1','2','3','4','5','6','7','8','9')
+	classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 	example = iter(test_loader)
 	example_data, example_targets = example.next()
 	##-------------------------------------------------------
